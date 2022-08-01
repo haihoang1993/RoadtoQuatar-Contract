@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "npx hardhat test",
-    "deploy-bscTestnet": "npx hardhat run --network bscTestnet scripts/deploy.js",
+    "deploy-test": "npx hardhat run --network bscTestnet scripts/deploy.js",
+    "deploy-testProxy": "npx hardhat run --network bscTestnet scripts/deployProxy.js",
     "deploy-bsc": "npx hardhat run --network bsc scripts/deploy.js",
-    "verify-bscTestnet": "npx hardhat run --network bscTestnet scripts/verify.js",
+    "verify-test": "npx hardhat run --network bscTestnet scripts/verify.js",
     "verify-bsc": "npx hardhat run --network bsc scripts/verify.js",
     "node": "npx hardhat node"
   },

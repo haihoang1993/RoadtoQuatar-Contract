@@ -2,22 +2,44 @@
 
 pragma solidity >=0.7.0 <0.9.0;
 
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/math/SafeMathUpgradeable.sol";
+
 import "./InterfaceFactory.sol";
 import "./Bet.sol";
 import './Factory-List.sol';
-contract FactoryBet is Ownable,FactoryList, InterfaceFactory {
-    using SafeMath for uint256;
+
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/structs/EnumerableSetUpgradeable.sol";
+
+contract FactoryBet is FactoryList, InterfaceFactory,  
+    Initializable,
+    OwnableUpgradeable,
+    UUPSUpgradeable {
     using SafeERC20 for IERC20;
+    using SafeMathUpgradeable for uint256;
+    using SafeERC20Upgradeable for IERC20Upgradeable;
+    using EnumerableSetUpgradeable for EnumerableSetUpgradeable.AddressSet;
+    using EnumerableSetUpgradeable for EnumerableSetUpgradeable.UintSet;
 
     mapping(address => BetObj) bets;
 
-    constructor() {
-         
+    uint256 public num;
+
+    function initialize()
+        public
+        initializer
+    {
+        __Ownable_init();
+        __UUPSUpgradeable_init();
+        _transferOwnership(msg.sender);
     }
+
+     function _authorizeUpgrade(address) internal override onlyOwner {}
+
 
     function createBet(BetObj memory _bet) external {
         Bet _newBet =new Bet();
@@ -29,5 +51,11 @@ contract FactoryBet is Ownable,FactoryList, InterfaceFactory {
      function getBetInfo(address betAdrress) external  view override returns(BetObj memory) {
         return bets[betAdrress];
      }
+
+     function setTest(uint256 _num) external {
+         num=_num;
+     }
+
+
 
 }
