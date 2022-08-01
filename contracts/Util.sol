@@ -4,13 +4,15 @@ pragma solidity >=0.7.0 <0.9.0;
 
 
     enum Status{ ComingSoon, Playing,  Finished }
-    enum Result { TeamA, Equal, TeamB }
  
     struct BetObj{
          address addressBet;
          string teamA;
+         string logoTeamA;
          string teamB;
+         string logoTeamB;
          uint256 time;   
          Status status;
-         Result result;
+         uint256 goalTeamA;
+         uint256 goalTeamB;
     }

@@ -4,5 +4,5 @@ import "./Util.sol";
 
 //
 interface InterfaceFactory{
-
+    function getBetInfo(address betAdrress) external view returns(BetObj memory);
 }

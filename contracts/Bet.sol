@@ -17,8 +17,6 @@ contract Bet is Ownable {
 
     constructor() {
          factory = InterfaceFactory(msg.sender);
-
-         
     }
 
 }

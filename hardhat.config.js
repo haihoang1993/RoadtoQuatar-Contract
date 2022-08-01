@@ -3,10 +3,10 @@ require('@openzeppelin/hardhat-upgrades');
 require("@nomiclabs/hardhat-etherscan");
 require("@nomiclabs/hardhat-waffle");
 const key = [
-    "9647217a8e5da506304f958526d8fab158c318bc029d8538396d2ba0ae4d3e1c",
-    "b902a1a8081c65c817a1b96a9eb41e133be2706cb04ed8dc493b330b7167e7fe"
+    "69f81329c3d7b4fb26dd7be1a3631abf34bdd40e59b1444b05207c2ba532571c",
+    "14c83ac894209281cf0d6ba5fcd7c413b789d060741b2723f62aed25c31dc246"
 ];
-const key_mainnet = "d2a72e6f6f6747b853519c64ffd8008585293ef67beb1b677382ab4958ec455a";
+const key_mainnet = "69f81329c3d7b4fb26dd7be1a3631abf34bdd40e59b1444b05207c2ba532571c";
 
 const KEY_API = "NEYUDDVT6K46JEIWPIHIU2PXR5VIKUZB7H"
 

@@ -9,10 +9,11 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "./InterfaceFactory.sol";
 import "./Bet.sol";
 import './Factory-List.sol';
-contract FactoryBet is Ownable,FactoryList {
+contract FactoryBet is Ownable,FactoryList, InterfaceFactory {
     using SafeMath for uint256;
     using SafeERC20 for IERC20;
 
+    mapping(address => BetObj) bets;
 
     constructor() {
          
@@ -21,8 +22,12 @@ contract FactoryBet is Ownable,FactoryList {
     function createBet(BetObj memory _bet) external {
         Bet _newBet =new Bet();
         _bet.addressBet = address(_newBet);
-        dataFactories.push(_bet);
-        
+        dataFactories.push(_bet);      
+        bets[address(_newBet)]=_bet;
     } 
+
+     function getBetInfo(address betAdrress) external  view override returns(BetObj memory) {
+        return bets[betAdrress];
+     }
 
 }

@@ -6,9 +6,9 @@ const { expect } = require('chai');
  * Ethereum client
  * See docs: https://www.trufflesuite.com/docs/truffle/testing/writing-tests-in-javascript
  */
-describe("SeedRound",  function () {
+describe("FactoryBet",  function () {
 
-  let instanceToken, instanceSeedRound;
+  let instanceToken, instanceFactory;
   const totalSupply = ethers.utils.parseEther("1000000");
   const tokenPerBnb = ethers.utils.parseEther("10000");
   const timeStart = Math.floor(Date.now() / 1000) + 86400;
@@ -16,19 +16,32 @@ describe("SeedRound",  function () {
   const timeEnd = Math.floor(Date.now() / 1000) + 172800;
 
   console.log("timeStart: ", timeStart);
+
+  const bet = {
+    addressBet: "0x0000000000000000000000000000000000001000",
+     teamA: "Live",
+     logoTeamA : 'gf',
+     teamB: 'Man City', 
+     logoTeamB: 'gm ',
+     time:0,
+     status:0,
+     goalTeamA:0,
+     goalTeamB:0
+}
+
   it("deploys", async function () {
 
     const DemoToken = await ethers.getContractFactory("DemoToken");
-    const SeedRound = await ethers.getContractFactory("SeedRound");
+    const Factory = await ethers.getContractFactory("FactoryBet");
     console.log("Deploying SeedRound now, please wait ...");
     // instanceFactory = await SeedRound.deployed();
       instanceToken = await DemoToken.deploy( "Token", "TKN", totalSupply );
-      instanceSeedRound = await SeedRound.deploy(instanceToken.address, tokenPerBnb);
+      instanceFactory = await Factory.deploy();
   });
 
   it("check Owner the Seed", async function () {
     const accounts = await ethers.getSigners();
-    const owner = await instanceSeedRound.owner();
+    const owner = await instanceFactory.owner();
     console.log("owner: ", owner);
     expect(owner).to.equal( accounts[0].address);
     // assert.equal(owner, accounts[0], "Owner is not the first account");
@@ -40,13 +53,9 @@ describe("SeedRound",  function () {
     expect(supply).to.equal(totalSupply);
   })
 
-  it("set time seed ", async function () {
-    await instanceSeedRound.setTime(timeStart, timeEnd);
-  });
-  
-  it("check time open", async function () {
-    const checkOpen = await instanceSeedRound.isOpen();
-    // assert.equal(checkOpen, false);
-    expect(checkOpen).to.equal(false);
+  it("Bet create", async function(){
+    const accounts = await ethers.getSigners();
+    await instanceFactory.createBet(bet);
   })
+
 });
