@@ -26,8 +26,11 @@ contract FactoryBet is FactoryList, InterfaceFactory,
     using EnumerableSetUpgradeable for EnumerableSetUpgradeable.UintSet;
 
     mapping(address => BetObj) bets;
+    mapping(uint256 => BetObj) betsID;
 
     uint256 public num;
+
+    uint256 private idAuto = 0;
 
     function initialize()
         public
@@ -43,13 +46,20 @@ contract FactoryBet is FactoryList, InterfaceFactory,
 
     function createBet(BetObj memory _bet) external {
         Bet _newBet =new Bet();
+        idAuto++;
+        _bet.id=idAuto;
         _bet.addressBet = address(_newBet);
         dataFactories.push(_bet);      
         bets[address(_newBet)]=_bet;
+        betsID[idAuto]=_bet;
     } 
 
      function getBetInfo(address betAdrress) external  view override returns(BetObj memory) {
         return bets[betAdrress];
+     }
+
+     function getBetInfoById(uint256 id) external  view override returns(BetObj memory) {
+        return betsID[id];
      }
 
      function setTest(uint256 _num) external {

@@ -18,6 +18,7 @@ describe("FactoryBet",  function () {
   console.log("timeStart: ", timeStart);
 
   const bet = {
+    id:0,
     addressBet: "0x0000000000000000000000000000000000001000",
      teamA: "Live",
      logoTeamA : 'gf',
@@ -25,8 +26,9 @@ describe("FactoryBet",  function () {
      logoTeamB: 'gm ',
      time:0,
      status:0,
-     goalTeamA:0,
-     goalTeamB:0
+     venue: "",
+     goalTeamA: 0,
+     goalTeamB: 0
 }
 
   it("deploys", async function () {

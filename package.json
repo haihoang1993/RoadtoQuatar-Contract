@@ -29,6 +29,7 @@
     "@openzeppelin/contracts": "^4.5.0",
     "@openzeppelin/contracts-upgradeable": "^4.5.2",
     "@openzeppelin/hardhat-upgrades": "^1.16.0",
+    "image-downloader": "^4.3.0",
     "node-storage": "^0.0.9",
     "simple-json-db": "^2.0.0"
   }

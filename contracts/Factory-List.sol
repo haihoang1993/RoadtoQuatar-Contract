@@ -18,6 +18,26 @@ contract FactoryList {
     constructor() {
          
     }
+
+
+    // function getList prarams list, page, perPage not using slice
+    function getListBet(
+        uint256 filter,
+        uint256 page,
+        uint256 perPage
+    )
+        external
+        view
+        returns (BetObj[] memory data, uint256 total)
+    {
+        BetObj[] memory list = filterSortList(dataFactories, filter);
+        // return list;
+        page = page == 0 ? page : page.sub(1);
+        return (
+            this.sliceArray(list, page * perPage, (page + 1) * perPage),
+            list.length
+        );
+    }
     
     function checkSort(
         BetObj memory item1,
