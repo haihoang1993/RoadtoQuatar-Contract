@@ -44,15 +44,22 @@ contract FactoryBet is FactoryList, InterfaceFactory,
      function _authorizeUpgrade(address) internal override onlyOwner {}
 
 
-    function createBet(BetObj memory _bet) external {
+    function createBet(BetObj memory _bet) external onlyOwner {
         Bet _newBet =new Bet();
-        idAuto++;
         _bet.id=idAuto;
         _bet.addressBet = address(_newBet);
         dataFactories.push(_bet);      
         bets[address(_newBet)]=_bet;
         betsID[idAuto]=_bet;
+        idAuto++;
     } 
+
+    function setStatus(address _bet, uint typeStatus) external onlyOwner{
+        require(typeStatus>=0 && typeStatus<=2);
+        bets[_bet].status=Status(typeStatus);
+        betsID[bets[_bet].id].status=Status(typeStatus);
+        dataFactories[bets[_bet].id].status=Status(typeStatus);
+    }
 
      function getBetInfo(address betAdrress) external  view override returns(BetObj memory) {
         return bets[betAdrress];

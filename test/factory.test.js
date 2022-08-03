@@ -28,7 +28,8 @@ describe("FactoryBet",  function () {
      status:0,
      venue: "",
      goalTeamA: 0,
-     goalTeamB: 0
+     goalTeamB: 0,
+     isDeleted:false
 }
 
   it("deploys", async function () {

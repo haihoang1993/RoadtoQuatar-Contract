@@ -17,4 +17,5 @@ pragma solidity >=0.7.0 <0.9.0;
          string venue;
          uint256 goalTeamA;
          uint256 goalTeamB;
+         bool isDeleted;
     }
