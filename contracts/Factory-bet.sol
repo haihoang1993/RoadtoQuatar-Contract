@@ -25,6 +25,8 @@ contract FactoryBet is FactoryList, InterfaceFactory,
     using EnumerableSetUpgradeable for EnumerableSetUpgradeable.AddressSet;
     using EnumerableSetUpgradeable for EnumerableSetUpgradeable.UintSet;
 
+    IERC20 public token;
+
     mapping(address => BetObj) bets;
     mapping(uint256 => BetObj) betsID;
 
@@ -32,10 +34,11 @@ contract FactoryBet is FactoryList, InterfaceFactory,
 
     uint256 private idAuto = 0;
 
-    function initialize()
+    function initialize(address _token)
         public
         initializer
     {
+        token=IERC20(_token);
         __Ownable_init();
         __UUPSUpgradeable_init();
         _transferOwnership(msg.sender);
@@ -45,7 +48,7 @@ contract FactoryBet is FactoryList, InterfaceFactory,
 
 
     function createBet(BetObj memory _bet) external onlyOwner {
-        Bet _newBet =new Bet();
+        Bet _newBet =new Bet(address(token));
         _bet.id=idAuto;
         _bet.addressBet = address(_newBet);
         dataFactories.push(_bet);      

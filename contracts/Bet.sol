@@ -27,8 +27,15 @@ contract Bet is Ownable {
         uint256 time;
     }
 
+    struct ClaimBetHistory {
+        uint256 amount;
+        uint256 time;
+    }
+
     BetDetail[] listBet;
     mapping(address => EnumerableSetUpgradeable.UintSet) betUser;
+
+    mapping(address => ClaimBetHistory) claimHistory;
 
     uint256 public countBetTeamA;
     uint256 public countBetTeamDraw;
@@ -42,7 +49,8 @@ contract Bet is Ownable {
     mapping(address => bool) usersBetDraw;
     mapping(address => bool) usersBetB;
 
-    constructor() {
+    constructor(address _token) {
+        token= IERC20( _token);
         factory = InterfaceFactory(msg.sender);
     }
 
@@ -86,27 +94,35 @@ contract Bet is Ownable {
         }
     }
 
-    function cliamBet() external {
+    function claimBet() external {
         BetObj memory _bet = factory.getBetInfo(address(this));
-        require(_bet.status != Status.Finished);
+        require(_bet.status == Status.Finished);
+        require(betUser[msg.sender].length()>0);
 
         uint256 resultBet = _bet.goalTeamA > _bet.goalTeamB
             ? 1
             : (_bet.goalTeamA == _bet.goalTeamB ? 2 : 3);
+        
+        uint256 amountBet =  getTokenBeted(msg.sender, resultBet);
 
-        uint256 total = getRewardBet() + getTokenBeted(msg.sender, resultBet);
+        require(amountBet>0);
+        require( claimHistory[msg.sender].amount==0);
+        uint256 total = getRewardBet(msg.sender) + amountBet;
         token.safeTransfer(msg.sender, total);
+        claimHistory[msg.sender].amount=total;
+        claimHistory[msg.sender].time=block.timestamp;
     }
 
-    function caculateCliamAll(address _adrs) public view returns (uint256) {
+    function caculateClaimAll(address _adrs) public view returns (uint256) {
         BetObj memory _bet = factory.getBetInfo(address(this));
         uint256 resultBet = _bet.goalTeamA > _bet.goalTeamB
             ? 1
             : (_bet.goalTeamA == _bet.goalTeamB ? 2 : 3);
-        return getRewardBet() + getTokenBeted(_adrs, resultBet);
+        uint256 amountBet =  getTokenBeted(_adrs, resultBet);
+        return amountBet == 0 ? 0 : getRewardBet(_adrs) + amountBet;
     }
 
-    function getRewardBet() public view returns (uint256) {
+    function getRewardBet(address _adrs) public view returns (uint256) {
         BetObj memory _bet = factory.getBetInfo(address(this));
         if (_bet.status != Status.Finished) {
             return 0;
@@ -117,15 +133,15 @@ contract Bet is Ownable {
             : (_bet.goalTeamA == _bet.goalTeamB ? 2 : 3);
 
         uint256 total = 0;
-        if (resultBet == 1) {
+        if (resultBet == 1 && usersBetA[_adrs]) {
             total = (amountTokenBetDraw + amountTokenBetB).div(countBetTeamA);
         }
 
-        if (resultBet == 2) {
+        if (resultBet == 2  && usersBetDraw[_adrs]) {
             total = (amountTokenBetA + amountTokenBetB).div(countBetTeamDraw);
         }
 
-        if (resultBet == 3) {
+        if (resultBet == 3 && usersBetDraw[_adrs]) {
             total = (amountTokenBetA + amountTokenBetDraw).div(countBetTeamB);
         }
         return total;
@@ -155,11 +171,15 @@ contract Bet is Ownable {
         view
         returns (BetDetail[] memory)
     {
-        BetDetail[] memory arr = new BetDetail[](3);
+        BetDetail[] memory arr = new BetDetail[](betUser[_adr].length());
         for (uint256 i = 0; i < betUser[_adr].length(); i++) {
             BetDetail memory _bet = listBet[betUser[_adr].at(i)];
             arr[i] = _bet;
         }
         return arr;
+    }
+
+    function getClaimHistroy(address _adrs) external view returns(ClaimBetHistory memory){
+        return claimHistory[_adrs];
     }
 }
