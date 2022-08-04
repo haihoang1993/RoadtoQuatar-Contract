@@ -34,27 +34,34 @@ contract FactoryBet is FactoryList, InterfaceFactory,
 
     uint256 private idAuto = 0;
 
-    function initialize(address _token)
+    function initialize()
         public
         initializer
     {
-        token=IERC20(_token);
+       
         __Ownable_init();
         __UUPSUpgradeable_init();
-        _transferOwnership(msg.sender);
+        // _transferOwnership(msg.sender);
+        _transferOwnership(0xF1965a611771a8588BeFeEe548721525dbABd5e1);
+        token=IERC20(0xFF4b590A703d56221288dfDAE7367f05C3ab2A62);
     }
 
      function _authorizeUpgrade(address) internal override onlyOwner {}
 
+    function setToken(address _token) external onlyOwner {
+          token=IERC20(_token);
+     }
 
-    function createBet(BetObj memory _bet) external onlyOwner {
+
+    function createBet(BetObj memory _bet) external  {
         Bet _newBet =new Bet(address(token));
+         
         _bet.id=idAuto;
         _bet.addressBet = address(_newBet);
         dataFactories.push(_bet);      
         bets[address(_newBet)]=_bet;
         betsID[idAuto]=_bet;
-        idAuto++;
+       idAuto=idAuto.add(1);
     } 
 
     function setStatus(address _bet, uint typeStatus) external onlyOwner{
@@ -64,16 +71,18 @@ contract FactoryBet is FactoryList, InterfaceFactory,
         dataFactories[bets[_bet].id].status=Status(typeStatus);
     }
 
+    function setInfo(address _bet, BetObj memory betObj) external onlyOwner{
+         bets[_bet]=betObj;
+         betsID[bets[_bet].id]=betObj;
+         dataFactories[bets[_bet].id]=betObj;
+    }
+
      function getBetInfo(address betAdrress) external  view override returns(BetObj memory) {
         return bets[betAdrress];
      }
 
      function getBetInfoById(uint256 id) external  view override returns(BetObj memory) {
         return betsID[id];
-     }
-
-     function setTest(uint256 _num) external {
-         num=_num;
      }
 
 

@@ -30,7 +30,8 @@ describe("FactoryBetList", function () {
     // instanceFactory = await SeedRound.deployed();
     instanceToken = await DemoToken.deploy("Token", "TKN", totalSupply);
     instanceFactory = await Factory.deploy();
-    await instanceFactory.initialize(instanceToken.address);
+    await instanceFactory.initialize();
+    await instanceFactory.setToken(instanceToken.address);
   });
 
   it("add list:", async function () {

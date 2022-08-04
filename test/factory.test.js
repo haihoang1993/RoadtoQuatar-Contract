@@ -40,7 +40,7 @@ describe("FactoryBet",  function () {
     // instanceFactory = await SeedRound.deployed();
       instanceToken = await DemoToken.deploy( "Token", "TKN", totalSupply );
       instanceFactory = await Factory.deploy();
-      await instanceFactory.initialize(instanceToken.address);
+      await instanceFactory.initialize();
   });
 
   it("check Owner the Seed", async function () {

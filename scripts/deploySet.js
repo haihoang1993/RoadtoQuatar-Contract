@@ -3,19 +3,12 @@ const ethers = hre.ethers;
 const contractDeployed = require('../deployed.json')
 const data = require('../live.json');
 
-async function main() {
-    const [adrss]= await ethers.getSigners();
-    console.log('data:',data)
-    // We get the contract to deploy
-    const Factory = await ethers.getContractFactory("FactoryBet");
-    const factory = await Factory.deploy();
-    console.log("Factory deployed to:", factory.address);
-    await factory.initialize();
-    // await factory.setToken(contractDeployed.token);
-    const owner = await factory.owner();
-    console.log('address',adrss.address);
-    console.log('owner',owner);
 
+
+async function main() {
+    const Factory = await ethers.getContractFactory("FactoryBet");
+    const factory= await Factory.attach(contractDeployed.factory);
+    // await factory.setToken(contractDeployed.token);
     for (let i = 0; i < 1; i++) {
         const e = data[i]
   
@@ -43,8 +36,10 @@ async function main() {
         }
   
       }
-    
+
 }
+
+
 
 main()
     .then(() => process.exit(0))

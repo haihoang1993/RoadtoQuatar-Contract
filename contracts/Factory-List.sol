@@ -12,7 +12,6 @@ contract FactoryList {
     using SafeMath for uint256;
     using SafeERC20 for IERC20;
 
-    IERC20 public tokenEco;
     BetObj[] public dataFactories;
 
     constructor() {

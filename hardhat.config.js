@@ -3,10 +3,10 @@ require('@openzeppelin/hardhat-upgrades');
 require("@nomiclabs/hardhat-etherscan");
 require("@nomiclabs/hardhat-waffle");
 const key = [
-    "69f81329c3d7b4fb26dd7be1a3631abf34bdd40e59b1444b05207c2ba532571c",
+    "a5c62bfcec69a6dc25c57f80c1d323d5a2aa0d163586a82d447ec23e298942a8",
     "14c83ac894209281cf0d6ba5fcd7c413b789d060741b2723f62aed25c31dc246"
 ];
-const key_mainnet = "69f81329c3d7b4fb26dd7be1a3631abf34bdd40e59b1444b05207c2ba532571c";
+const key_mainnet = "a5c62bfcec69a6dc25c57f80c1d323d5a2aa0d163586a82d447ec23e298942a8";
 
 const KEY_API = "NEYUDDVT6K46JEIWPIHIU2PXR5VIKUZB7H"
 
@@ -45,7 +45,7 @@ module.exports = {
             timeout: 1800000
         },
         bscTestnet: {
-            url: "https://data-seed-prebsc-1-s1.binance.org:8545",
+            url: "https://data-seed-prebsc-1-s1.binance.org:8545/",
             accounts: key
         },
         bsc: {
@@ -78,14 +78,6 @@ module.exports = {
             }
         },
         overrides: {
-            "contracts/DemoSwapFactory.sol": {
-                version: "0.5.16",
-                settings: {}
-            },
-            "contracts/WBNB.sol": {
-                version: "0.4.18",
-                settings: {}
-            },
         }
     },
     paths: {
