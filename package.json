@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "npx hardhat test",
+    "set": "npx hardhat run --network bscTestnet scripts/deploySet.js",
+    "set-main": "npx hardhat run --network bsc scripts/deploySet.js",
     "deploy-set": "npx hardhat run --network bscTestnet scripts/deploySet.js",
     "deploy-test": "npx hardhat run --network bscTestnet scripts/deploy.js",
     "deploy-test-token": "npx hardhat run --network bscTestnet scripts/deployToken.js",

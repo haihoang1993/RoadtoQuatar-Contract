@@ -1,0 +1,96 @@
+[
+    {
+        "fixture_id": 867947,
+        "league_id": 4335,
+        "event_date": "2022-08-06T18:30:00+07:00",
+        "event_timestamp": 1659785400,
+        "round": "Regular Season - 1",
+        "status": "Not Started",
+        "status_short": "NS",
+        "venue": "Craven Cottage",
+        "round_int": 1,
+        "home_team": {
+            "team_id": 36,
+            "team_name": "Fulham",
+            "logo": "https://is.vnecdn.net/objects/teams/36.png"
+        },
+        "away_team": {
+            "team_id": 40,
+            "team_name": "Liverpool",
+            "logo": "https://is.vnecdn.net/objects/teams/40.png"
+        },
+        "score": {},
+        "position": 379
+    },
+    {
+        "fixture_id": 867953,
+        "league_id": 4335,
+        "event_date": "2022-08-06T23:30:00+07:00",
+        "event_timestamp": 1659803400,
+        "round": "Regular Season - 1",
+        "status": "Not Started",
+        "status_short": "NS",
+        "venue": "Goodison Park",
+        "round_int": 1,
+        "home_team": {
+            "team_id": 45,
+            "team_name": "Everton",
+            "logo": "https://is.vnecdn.net/objects/teams/45.png"
+        },
+        "away_team": {
+            "team_id": 49,
+            "team_name": "Chelsea",
+            "logo": "https://is.vnecdn.net/objects/teams/49.png"
+        },
+        "score": {},
+        "position": 374
+    },
+    {
+        "fixture_id": 867955,
+        "league_id": 4335,
+        "event_date": "2022-08-07T22:30:00+07:00",
+        "event_timestamp": 1659886200,
+        "round": "Regular Season - 1",
+        "status": "Not Started",
+        "status_short": "NS",
+        "venue": "London Stadium",
+        "round_int": 1,
+        "home_team": {
+            "team_id": 48,
+            "team_name": "West Ham",
+            "logo": "https://is.vnecdn.net/objects/teams/48.png"
+        },
+        "away_team": {
+            "team_id": 50,
+            "team_name": "Man City",
+            "logo": "https://is.vnecdn.net/objects/teams/50.png"
+        },
+        "score": {},
+        "position": 371
+    },
+    {
+        "fixture_id": 867956,
+        "league_id": 4335,
+        "event_date": "2022-08-13T21:00:00+07:00",
+        "event_timestamp": 1660399200,
+        "round": "Regular Season - 2",
+        "status": "Not Started",
+        "status_short": "NS",
+        "venue": "Emirates Stadium",
+        "round_int": 2,
+        "home_team": {
+            "team_id": 42,
+            "team_name": "Arsenal",
+            "logo": "https://is.vnecdn.net/objects/teams/42.png"
+        },
+        "away_team": {
+            "team_id": 46,
+            "team_name": "Leicester",
+            "logo": "https://is.vnecdn.net/objects/teams/46.png"
+        },
+        "score": {},
+        "position": 369
+    }
+
+
+]

@@ -6,7 +6,7 @@ const key = [
     "a5c62bfcec69a6dc25c57f80c1d323d5a2aa0d163586a82d447ec23e298942a8",
     "14c83ac894209281cf0d6ba5fcd7c413b789d060741b2723f62aed25c31dc246"
 ];
-const key_mainnet = "a5c62bfcec69a6dc25c57f80c1d323d5a2aa0d163586a82d447ec23e298942a8";
+const key_mainnet = "ab61d5f5b7b0c2e25e63fb06a836782a45257b7fbc5411f2e091ea0c68d0a5f4";
 
 const KEY_API = "NEYUDDVT6K46JEIWPIHIU2PXR5VIKUZB7H"
 
@@ -45,7 +45,7 @@ module.exports = {
             timeout: 1800000
         },
         bscTestnet: {
-            url: "https://data-seed-prebsc-1-s1.binance.org:8545/",
+            url: "https://data-seed-prebsc-2-s2.binance.org:8545",
             accounts: key
         },
         bsc: {

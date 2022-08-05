@@ -59,7 +59,7 @@ describe("FactoryBet",  function () {
 
   it("Bet create", async function(){
     const accounts = await ethers.getSigners();
-    await instanceFactory.createBet(bet);
+    await instanceFactory.createBetNew(bet);
   })
 
 });

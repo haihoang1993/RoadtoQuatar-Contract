@@ -1,4 +1,5 @@
 [
+    
     {
         "fixture_id": 867946,
         "league_id": 4335,
@@ -21,51 +22,7 @@
         },
         "score": {},
         "position": 380
-    },
-    {
-        "fixture_id": 867947,
-        "league_id": 4335,
-        "event_date": "2022-08-06T18:30:00+07:00",
-        "event_timestamp": 1659785400,
-        "round": "Regular Season - 1",
-        "status": "Not Started",
-        "status_short": "NS",
-        "venue": "Craven Cottage",
-        "round_int": 1,
-        "home_team": {
-            "team_id": 36,
-            "team_name": "Fulham",
-            "logo": "https://is.vnecdn.net/objects/teams/36.png"
-        },
-        "away_team": {
-            "team_id": 40,
-            "team_name": "Liverpool",
-            "logo": "https://is.vnecdn.net/objects/teams/40.png"
-        },
-        "score": {},
-        "position": 379
-    },
-    {
-        "fixture_id": 867948,
-        "league_id": 4335,
-        "event_date": "2022-08-06T21:00:00+07:00",
-        "event_timestamp": 1659794400,
-        "round": "Regular Season - 1",
-        "status": "Not Started",
-        "status_short": "NS",
-        "venue": "Vitality Stadium",
-        "round_int": 1,
-        "home_team": {
-            "team_id": 35,
-            "team_name": "Bournemouth",
-            "logo": "https://is.vnecdn.net/objects/teams/35.png"
-        },
-        "away_team": {
-            "team_id": 66,
-            "team_name": "Aston Villa",
-            "logo": "https://is.vnecdn.net/objects/teams/66.png"
-        },
-        "score": {},
-        "position": 378
     }
+
+
 ]

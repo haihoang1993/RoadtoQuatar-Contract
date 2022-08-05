@@ -58,7 +58,7 @@ describe("FactoryBetList", function () {
       }
 
       try {
-        await instanceFactory.connect(owner).createBet(bet)
+        await instanceFactory.connect(owner).createBetNew(bet)
 
       } catch (error) {
         console.log(error)
@@ -76,10 +76,10 @@ describe("FactoryBetList", function () {
 
   it("Transfer token:", async function () {
       
-      await instanceToken.transfer(addrs[1].address,ethers.utils.parseEther("50000"))
-      await instanceToken.transfer(addrs[2].address,ethers.utils.parseEther("50000"))
-      await instanceToken.transfer(addrs[3].address,ethers.utils.parseEther("50000"))
-      await instanceToken.transfer(addrs[4].address,ethers.utils.parseEther("50000"))
+      await instanceToken.transfer(addrs[1].address,ethers.utils.parseEther("100"))
+      await instanceToken.transfer(addrs[2].address,ethers.utils.parseEther("100"))
+      await instanceToken.transfer(addrs[3].address,ethers.utils.parseEther("100"))
+      await instanceToken.transfer(addrs[4].address,ethers.utils.parseEther("100"))
 
       const approve = ethers.utils.parseEther("10000000");
        await instanceToken.connect(addrs[1]).approve(instanceBet.address, approve);
@@ -95,10 +95,10 @@ describe("FactoryBetList", function () {
   })
 
   it("Bet Vote:", async function () {
-    await instanceBet.connect(addrs[1]).startBet(ethers.utils.parseEther("10000"),2)
-    await instanceBet.connect(addrs[2]).startBet(ethers.utils.parseEther("10000"),2)
-    await instanceBet.connect(addrs[3]).startBet(ethers.utils.parseEther("20000"),3)
-    await instanceBet.connect(addrs[4]).startBet(ethers.utils.parseEther("20000"),3)
+    await instanceBet.connect(addrs[1]).startBet(ethers.utils.parseEther("30"),1)
+    await instanceBet.connect(addrs[2]).startBet(ethers.utils.parseEther("100"),2)
+    await instanceBet.connect(addrs[3]).startBet(ethers.utils.parseEther("30"),3)
+    await instanceBet.connect(addrs[4]).startBet(ethers.utils.parseEther("40"),3)
   })
 
   it('getAllBet ', async function(){
@@ -112,34 +112,39 @@ describe("FactoryBetList", function () {
     expect(data.length).to.equal(1)
   })
   it('getRewardBet not done', async function(){
-    const data= await instanceBet.getRewardBet(addrs[2].address);
+    const [data]= await instanceBet.getRewardBet(addrs[2].address);
     console.log(data);
     expect(data).to.equal(ethers.utils.parseEther("0"))
   })
 
   it('getRewardBet done', async function(){
     await instanceFactory.setStatus(instanceBet.address,2)
-    const data= await instanceBet.getRewardBet(addrs[2].address);
-    expect(data).to.equal(ethers.utils.parseEther("20000"))
+    const [data] = await instanceBet.getRewardBet(addrs[2].address);
+    console.log("data",data)
+    expect(data).to.equal(ethers.utils.parseEther("97"))
   })
   it('getRewardBet user not exsit', async function(){
     await instanceFactory.setStatus(instanceBet.address,2)
-    const data= await instanceBet.getRewardBet(addrs[5].address);
+    const [data]= await instanceBet.getRewardBet(addrs[5].address);
     expect(data).to.equal(ethers.utils.parseEther("0"))
   })
   it('get claim all done', async function(){
     await instanceFactory.setStatus(instanceBet.address,2)
     const data= await instanceBet.caculateClaimAll(addrs[2].address);
-    expect(data).to.equal(ethers.utils.parseEther("30000"))
+    expect(data).to.equal(ethers.utils.parseEther("197"))
   })
 
   it('claim', async function(){
+    const balanceOfF1 = await instanceToken.balanceOf(addrs[2].address);
     await instanceFactory.setStatus(instanceBet.address,2)
     const data= await instanceBet.caculateClaimAll(addrs[2].address);
     await instanceBet.connect(addrs[2]).claimBet()
     const balanceOf = await instanceToken.balanceOf(addrs[2].address);
-    expect(data).to.equal(ethers.utils.parseEther("30000"))
-    expect(balanceOf).to.equal(ethers.utils.parseEther("70000"))
+    console.log(data)
+    console.log(balanceOfF1)
+    console.log(balanceOf)
+    expect(data).to.equal(ethers.utils.parseEther("197"))
+    expect(balanceOf).to.equal(ethers.utils.parseEther("194"))
   })
   it('claim 2 test', async function(){
     // await instanceBet.connect(addrs[2]).claimBet()

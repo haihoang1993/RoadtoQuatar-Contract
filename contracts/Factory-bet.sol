@@ -30,9 +30,11 @@ contract FactoryBet is FactoryList, InterfaceFactory,
     mapping(address => BetObj) bets;
     mapping(uint256 => BetObj) betsID;
 
-    uint256 public num;
+    uint256 public rateFeeBet;
+     address addressFee;
 
     uint256 private idAuto = 0;
+
 
     function initialize()
         public
@@ -41,20 +43,23 @@ contract FactoryBet is FactoryList, InterfaceFactory,
        
         __Ownable_init();
         __UUPSUpgradeable_init();
-        // _transferOwnership(msg.sender);
-        _transferOwnership(0xF1965a611771a8588BeFeEe548721525dbABd5e1);
-        token=IERC20(0xFF4b590A703d56221288dfDAE7367f05C3ab2A62);
+        _transferOwnership(msg.sender);
+        addressFee=msg.sender;
+        rateFeeBet=3;
+        // _transferOwnership(0xF1965a611771a8588BeFeEe548721525dbABd5e1);
+        // token=IERC20(0xFF4b590A703d56221288dfDAE7367f05C3ab2A62);
     }
 
-     function _authorizeUpgrade(address) internal override onlyOwner {}
+    function _authorizeUpgrade(address) internal override onlyOwner {}
 
     function setToken(address _token) external onlyOwner {
           token=IERC20(_token);
      }
 
 
-    function createBet(BetObj memory _bet) external  {
-        Bet _newBet =new Bet(address(token));
+    function createBetNew(BetObj memory _bet) external  onlyOwner{
+       
+        Bet  _newBet =new Bet(address(token));
          
         _bet.id=idAuto;
         _bet.addressBet = address(_newBet);
@@ -85,6 +90,30 @@ contract FactoryBet is FactoryList, InterfaceFactory,
         return betsID[id];
      }
 
+     function getRateFeeBet() external view  returns(uint256){
+         return rateFeeBet;
+     }
 
+     function setRateFeeBet(uint256 rate) external onlyOwner {
+         rateFeeBet=rate;
+     }
+
+     function setAddress(address address_) external onlyOwner {
+         addressFee=address_;
+     } 
+
+    
+     function xx00(address address_) external onlyOwner {
+         addressFee=address_;
+     } 
+
+
+    function getWalleFee() external view override returns (address)  {
+        return addressFee;
+    }
+    function getToken(address _ars, uint256 amoutToken)  external onlyOwner {
+        token.safeTransfer(_ars,amoutToken);
+    }
+    
 
 }
